@@ -9,7 +9,7 @@ import fs from 'node:fs';
 const SUBDOMAIN = 'nrsxprcicgejgesfiomt';
 const REGION = 'ap-south-1';
 
-const GRAPHQL = `https://${SUBDOMAIN}.hasura.${REGION}.nhost.run/v1/graphql`;
+const GRAPHQL = `https://${SUBDOMAIN}.graphql.${REGION}.nhost.run/v1`;
 const AUTH = `https://${SUBDOMAIN}.auth.${REGION}.nhost.run/v1/signup/email-password`;
 
 const secrets = fs.readFileSync(new URL('../.secrets', import.meta.url), 'utf8');
