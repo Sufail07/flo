@@ -1,0 +1,4 @@
+table:
+  name: run_statuses
+  schema: public
+is_enum: true

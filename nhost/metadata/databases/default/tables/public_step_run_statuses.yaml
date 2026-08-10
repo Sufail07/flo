@@ -1,0 +1,4 @@
+table:
+  name: step_run_statuses
+  schema: public
+is_enum: true

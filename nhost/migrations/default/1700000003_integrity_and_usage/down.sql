@@ -1,0 +1,12 @@
+DROP VIEW IF EXISTS public.org_usage_current_month;
+DROP FUNCTION IF EXISTS public.release_org_quota(uuid, integer);
+DROP FUNCTION IF EXISTS public.consume_org_quota(uuid, integer);
+DROP TRIGGER IF EXISTS t_workflow_steps_branch_targets ON public.workflow_steps;
+DROP FUNCTION IF EXISTS public.check_branch_targets();
+DROP TRIGGER IF EXISTS t_workflow_artifacts_org_id ON public.workflow_artifacts;
+DROP TRIGGER IF EXISTS t_step_runs_org_id ON public.step_runs;
+DROP FUNCTION IF EXISTS public.set_org_id_from_run();
+DROP TRIGGER IF EXISTS t_workflow_runs_org_id ON public.workflow_runs;
+DROP TRIGGER IF EXISTS t_workflow_triggers_org_id ON public.workflow_triggers;
+DROP TRIGGER IF EXISTS t_workflow_steps_org_id ON public.workflow_steps;
+DROP FUNCTION IF EXISTS public.set_org_id_from_workflow();

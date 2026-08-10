@@ -1,0 +1,22 @@
+table:
+  name: org_usage_current_month
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      manual_configuration:
+        column_mapping:
+          org_id: id
+        insertion_order: null
+        remote_table:
+          name: organizations
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        org:
+          members:
+            user_id:
+              _eq: X-Hasura-User-Id

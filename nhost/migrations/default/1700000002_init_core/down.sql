@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS public.leads;
+DROP TABLE IF EXISTS public.org_usage_events;
+DROP TABLE IF EXISTS public.notifications;
+DROP TABLE IF EXISTS public.workflow_artifacts;
+DROP TABLE IF EXISTS public.step_runs;
+DROP TABLE IF EXISTS public.workflow_runs;
+DROP TABLE IF EXISTS public.workflow_triggers;
+DROP TABLE IF EXISTS public.workflow_steps;
+DROP TABLE IF EXISTS public.workflows;
+DROP TABLE IF EXISTS public.org_members;
+DROP TABLE IF EXISTS public.organizations;
+DROP FUNCTION IF EXISTS public.set_updated_at();

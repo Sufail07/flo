@@ -1,0 +1,24 @@
+table:
+  name: step_runs
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: org_id
+  - name: step
+    using:
+      foreign_key_constraint_on: step_id
+  - name: workflow_run
+    using:
+      foreign_key_constraint_on: workflow_run_id
+select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        workflow_run:
+          workflow:
+            org:
+              members:
+                user_id:
+                  _eq: X-Hasura-User-Id

@@ -1,0 +1,45 @@
+table:
+  name: workflow_runs
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: org_id
+  - name: trigger
+    using:
+      foreign_key_constraint_on: trigger_id
+  - name: workflow
+    using:
+      foreign_key_constraint_on: workflow_id
+array_relationships:
+  - name: artifacts
+    using:
+      foreign_key_constraint_on:
+        column: workflow_run_id
+        table:
+          name: workflow_artifacts
+          schema: public
+  - name: notifications
+    using:
+      foreign_key_constraint_on:
+        column: workflow_run_id
+        table:
+          name: notifications
+          schema: public
+  - name: step_runs
+    using:
+      foreign_key_constraint_on:
+        column: workflow_run_id
+        table:
+          name: step_runs
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        workflow:
+          org:
+            members:
+              user_id:
+                _eq: X-Hasura-User-Id

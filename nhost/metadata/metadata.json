@@ -1,0 +1,2643 @@
+{
+  "version": 3,
+  "sources": [
+    {
+      "name": "default",
+      "kind": "postgres",
+      "tables": [
+        {
+          "table": {
+            "name": "oauth2_auth_requests",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "auth_time": {
+                "custom_name": "authTime"
+              },
+              "client_id": {
+                "custom_name": "clientId"
+              },
+              "code_challenge": {
+                "custom_name": "codeChallenge"
+              },
+              "code_challenge_method": {
+                "custom_name": "codeChallengeMethod"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "done": {
+                "custom_name": "done"
+              },
+              "expires_at": {
+                "custom_name": "expiresAt"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "nonce": {
+                "custom_name": "nonce"
+              },
+              "redirect_uri": {
+                "custom_name": "redirectUri"
+              },
+              "resource": {
+                "custom_name": "resource"
+              },
+              "response_type": {
+                "custom_name": "responseType"
+              },
+              "scopes": {
+                "custom_name": "scopes"
+              },
+              "state": {
+                "custom_name": "state"
+              },
+              "user_id": {
+                "custom_name": "userId"
+              }
+            },
+            "custom_column_names": {
+              "auth_time": "authTime",
+              "client_id": "clientId",
+              "code_challenge": "codeChallenge",
+              "code_challenge_method": "codeChallengeMethod",
+              "created_at": "createdAt",
+              "done": "done",
+              "expires_at": "expiresAt",
+              "id": "id",
+              "nonce": "nonce",
+              "redirect_uri": "redirectUri",
+              "resource": "resource",
+              "response_type": "responseType",
+              "scopes": "scopes",
+              "state": "state",
+              "user_id": "userId"
+            },
+            "custom_name": "authOauth2AuthRequests",
+            "custom_root_fields": {
+              "delete": "deleteAuthOauth2AuthRequests",
+              "delete_by_pk": "deleteAuthOauth2AuthRequest",
+              "insert": "insertAuthOauth2AuthRequests",
+              "insert_one": "insertAuthOauth2AuthRequest",
+              "select": "authOauth2AuthRequests",
+              "select_aggregate": "authOauth2AuthRequestsAggregate",
+              "select_by_pk": "authOauth2AuthRequest",
+              "update": "updateAuthOauth2AuthRequests",
+              "update_by_pk": "updateAuthOauth2AuthRequest"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "client",
+              "using": {
+                "foreign_key_constraint_on": "client_id"
+              }
+            },
+            {
+              "name": "user",
+              "using": {
+                "foreign_key_constraint_on": "user_id"
+              }
+            }
+          ],
+          "array_relationships": [
+            {
+              "name": "authorizationCodes",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "auth_request_id",
+                  "table": {
+                    "name": "oauth2_authorization_codes",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "refreshTokens",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "auth_request_id",
+                  "table": {
+                    "name": "oauth2_refresh_tokens",
+                    "schema": "auth"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "oauth2_authorization_codes",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "auth_request_id": {
+                "custom_name": "authRequestId"
+              },
+              "code_hash": {
+                "custom_name": "codeHash"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "expires_at": {
+                "custom_name": "expiresAt"
+              },
+              "id": {
+                "custom_name": "id"
+              }
+            },
+            "custom_column_names": {
+              "auth_request_id": "authRequestId",
+              "code_hash": "codeHash",
+              "created_at": "createdAt",
+              "expires_at": "expiresAt",
+              "id": "id"
+            },
+            "custom_name": "authOauth2AuthorizationCodes",
+            "custom_root_fields": {
+              "delete": "deleteAuthOauth2AuthorizationCodes",
+              "delete_by_pk": "deleteAuthOauth2AuthorizationCode",
+              "insert": "insertAuthOauth2AuthorizationCodes",
+              "insert_one": "insertAuthOauth2AuthorizationCode",
+              "select": "authOauth2AuthorizationCodes",
+              "select_aggregate": "authOauth2AuthorizationCodesAggregate",
+              "select_by_pk": "authOauth2AuthorizationCode",
+              "update": "updateAuthOauth2AuthorizationCodes",
+              "update_by_pk": "updateAuthOauth2AuthorizationCode"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "authRequest",
+              "using": {
+                "foreign_key_constraint_on": "auth_request_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "oauth2_clients",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "client_id": {
+                "custom_name": "clientId"
+              },
+              "client_secret_hash": {
+                "custom_name": "clientSecretHash"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "created_by": {
+                "custom_name": "createdBy"
+              },
+              "metadata": {
+                "custom_name": "metadata"
+              },
+              "metadata_document_fetched_at": {
+                "custom_name": "metadataDocumentFetchedAt"
+              },
+              "redirect_uris": {
+                "custom_name": "redirectUris"
+              },
+              "scopes": {
+                "custom_name": "scopes"
+              },
+              "type": {
+                "custom_name": "type"
+              },
+              "updated_at": {
+                "custom_name": "updatedAt"
+              }
+            },
+            "custom_column_names": {
+              "client_id": "clientId",
+              "client_secret_hash": "clientSecretHash",
+              "created_at": "createdAt",
+              "created_by": "createdBy",
+              "metadata": "metadata",
+              "metadata_document_fetched_at": "metadataDocumentFetchedAt",
+              "redirect_uris": "redirectUris",
+              "scopes": "scopes",
+              "type": "type",
+              "updated_at": "updatedAt"
+            },
+            "custom_name": "authOauth2Clients",
+            "custom_root_fields": {
+              "delete": "deleteAuthOauth2Clients",
+              "delete_by_pk": "deleteAuthOauth2Client",
+              "insert": "insertAuthOauth2Clients",
+              "insert_one": "insertAuthOauth2Client",
+              "select": "authOauth2Clients",
+              "select_aggregate": "authOauth2ClientsAggregate",
+              "select_by_pk": "authOauth2Client",
+              "update": "updateAuthOauth2Clients",
+              "update_by_pk": "updateAuthOauth2Client"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "createdByUser",
+              "using": {
+                "foreign_key_constraint_on": "created_by"
+              }
+            }
+          ],
+          "array_relationships": [
+            {
+              "name": "authRequests",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "client_id",
+                  "table": {
+                    "name": "oauth2_auth_requests",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "oauth2RefreshTokens",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "client_id",
+                  "table": {
+                    "name": "oauth2_refresh_tokens",
+                    "schema": "auth"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "oauth2_refresh_tokens",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "auth_request_id": {
+                "custom_name": "authRequestId"
+              },
+              "client_id": {
+                "custom_name": "clientId"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "expires_at": {
+                "custom_name": "expiresAt"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "scopes": {
+                "custom_name": "scopes"
+              },
+              "token_hash": {
+                "custom_name": "tokenHash"
+              },
+              "user_id": {
+                "custom_name": "userId"
+              }
+            },
+            "custom_column_names": {
+              "auth_request_id": "authRequestId",
+              "client_id": "clientId",
+              "created_at": "createdAt",
+              "expires_at": "expiresAt",
+              "id": "id",
+              "scopes": "scopes",
+              "token_hash": "tokenHash",
+              "user_id": "userId"
+            },
+            "custom_name": "authOauth2RefreshTokens",
+            "custom_root_fields": {
+              "delete": "deleteAuthOauth2RefreshTokens",
+              "delete_by_pk": "deleteAuthOauth2RefreshToken",
+              "insert": "insertAuthOauth2RefreshTokens",
+              "insert_one": "insertAuthOauth2RefreshToken",
+              "select": "authOauth2RefreshTokens",
+              "select_aggregate": "authOauth2RefreshTokensAggregate",
+              "select_by_pk": "authOauth2RefreshToken",
+              "update": "updateAuthOauth2RefreshTokens",
+              "update_by_pk": "updateAuthOauth2RefreshToken"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "authRequest",
+              "using": {
+                "foreign_key_constraint_on": "auth_request_id"
+              }
+            },
+            {
+              "name": "client",
+              "using": {
+                "foreign_key_constraint_on": "client_id"
+              }
+            },
+            {
+              "name": "user",
+              "using": {
+                "foreign_key_constraint_on": "user_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "provider_requests",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "id": {
+                "custom_name": "id"
+              },
+              "options": {
+                "custom_name": "options"
+              }
+            },
+            "custom_column_names": {
+              "id": "id",
+              "options": "options"
+            },
+            "custom_name": "authProviderRequests",
+            "custom_root_fields": {
+              "delete": "deleteAuthProviderRequests",
+              "delete_by_pk": "deleteAuthProviderRequest",
+              "insert": "insertAuthProviderRequests",
+              "insert_one": "insertAuthProviderRequest",
+              "select": "authProviderRequests",
+              "select_aggregate": "authProviderRequestsAggregate",
+              "select_by_pk": "authProviderRequest",
+              "update": "updateAuthProviderRequests",
+              "update_by_pk": "updateAuthProviderRequest"
+            }
+          }
+        },
+        {
+          "table": {
+            "name": "providers",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "id": {
+                "custom_name": "id"
+              }
+            },
+            "custom_column_names": {
+              "id": "id"
+            },
+            "custom_name": "authProviders",
+            "custom_root_fields": {
+              "delete": "deleteAuthProviders",
+              "delete_by_pk": "deleteAuthProvider",
+              "insert": "insertAuthProviders",
+              "insert_one": "insertAuthProvider",
+              "select": "authProviders",
+              "select_aggregate": "authProvidersAggregate",
+              "select_by_pk": "authProvider",
+              "update": "updateAuthProviders",
+              "update_by_pk": "updateAuthProvider"
+            }
+          },
+          "array_relationships": [
+            {
+              "name": "userProviders",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "provider_id",
+                  "table": {
+                    "name": "user_providers",
+                    "schema": "auth"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "refresh_token_types",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "comment": {
+                "custom_name": "comment"
+              },
+              "value": {
+                "custom_name": "value"
+              }
+            },
+            "custom_column_names": {
+              "comment": "comment",
+              "value": "value"
+            },
+            "custom_name": "authRefreshTokenTypes",
+            "custom_root_fields": {
+              "delete": "deleteAuthRefreshTokenTypes",
+              "delete_by_pk": "deleteAuthRefreshTokenType",
+              "insert": "insertAuthRefreshTokenTypes",
+              "insert_one": "insertAuthRefreshTokenType",
+              "select": "authRefreshTokenTypes",
+              "select_aggregate": "authRefreshTokenTypesAggregate",
+              "select_by_pk": "authRefreshTokenType",
+              "update": "updateAuthRefreshTokenTypes",
+              "update_by_pk": "updateAuthRefreshTokenType"
+            }
+          },
+          "array_relationships": [
+            {
+              "name": "refreshTokens",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "type",
+                  "table": {
+                    "name": "refresh_tokens",
+                    "schema": "auth"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "refresh_tokens",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "expires_at": {
+                "custom_name": "expiresAt"
+              },
+              "refresh_token_hash": {
+                "custom_name": "refreshTokenHash"
+              },
+              "user_id": {
+                "custom_name": "userId"
+              }
+            },
+            "custom_column_names": {
+              "created_at": "createdAt",
+              "expires_at": "expiresAt",
+              "refresh_token_hash": "refreshTokenHash",
+              "user_id": "userId"
+            },
+            "custom_name": "authRefreshTokens",
+            "custom_root_fields": {
+              "delete": "deleteAuthRefreshTokens",
+              "delete_by_pk": "deleteAuthRefreshToken",
+              "insert": "insertAuthRefreshTokens",
+              "insert_one": "insertAuthRefreshToken",
+              "select": "authRefreshTokens",
+              "select_aggregate": "authRefreshTokensAggregate",
+              "select_by_pk": "authRefreshToken",
+              "update": "updateAuthRefreshTokens",
+              "update_by_pk": "updateAuthRefreshToken"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "user",
+              "using": {
+                "foreign_key_constraint_on": "user_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "roles",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "role": {
+                "custom_name": "role"
+              }
+            },
+            "custom_column_names": {
+              "role": "role"
+            },
+            "custom_name": "authRoles",
+            "custom_root_fields": {
+              "delete": "deleteAuthRoles",
+              "delete_by_pk": "deleteAuthRole",
+              "insert": "insertAuthRoles",
+              "insert_one": "insertAuthRole",
+              "select": "authRoles",
+              "select_aggregate": "authRolesAggregate",
+              "select_by_pk": "authRole",
+              "update": "updateAuthRoles",
+              "update_by_pk": "updateAuthRole"
+            }
+          },
+          "array_relationships": [
+            {
+              "name": "userRoles",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "role",
+                  "table": {
+                    "name": "user_roles",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "usersByDefaultRole",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "default_role",
+                  "table": {
+                    "name": "users",
+                    "schema": "auth"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "user_providers",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "access_token": {
+                "custom_name": "accessToken"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "provider_id": {
+                "custom_name": "providerId"
+              },
+              "provider_user_id": {
+                "custom_name": "providerUserId"
+              },
+              "refresh_token": {
+                "custom_name": "refreshToken"
+              },
+              "updated_at": {
+                "custom_name": "updatedAt"
+              },
+              "user_id": {
+                "custom_name": "userId"
+              }
+            },
+            "custom_column_names": {
+              "access_token": "accessToken",
+              "created_at": "createdAt",
+              "id": "id",
+              "provider_id": "providerId",
+              "provider_user_id": "providerUserId",
+              "refresh_token": "refreshToken",
+              "updated_at": "updatedAt",
+              "user_id": "userId"
+            },
+            "custom_name": "authUserProviders",
+            "custom_root_fields": {
+              "delete": "deleteAuthUserProviders",
+              "delete_by_pk": "deleteAuthUserProvider",
+              "insert": "insertAuthUserProviders",
+              "insert_one": "insertAuthUserProvider",
+              "select": "authUserProviders",
+              "select_aggregate": "authUserProvidersAggregate",
+              "select_by_pk": "authUserProvider",
+              "update": "updateAuthUserProviders",
+              "update_by_pk": "updateAuthUserProvider"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "provider",
+              "using": {
+                "foreign_key_constraint_on": "provider_id"
+              }
+            },
+            {
+              "name": "user",
+              "using": {
+                "foreign_key_constraint_on": "user_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "user_roles",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "role": {
+                "custom_name": "role"
+              },
+              "user_id": {
+                "custom_name": "userId"
+              }
+            },
+            "custom_column_names": {
+              "created_at": "createdAt",
+              "id": "id",
+              "role": "role",
+              "user_id": "userId"
+            },
+            "custom_name": "authUserRoles",
+            "custom_root_fields": {
+              "delete": "deleteAuthUserRoles",
+              "delete_by_pk": "deleteAuthUserRole",
+              "insert": "insertAuthUserRoles",
+              "insert_one": "insertAuthUserRole",
+              "select": "authUserRoles",
+              "select_aggregate": "authUserRolesAggregate",
+              "select_by_pk": "authUserRole",
+              "update": "updateAuthUserRoles",
+              "update_by_pk": "updateAuthUserRole"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "roleByRole",
+              "using": {
+                "foreign_key_constraint_on": "role"
+              }
+            },
+            {
+              "name": "user",
+              "using": {
+                "foreign_key_constraint_on": "user_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "user_security_keys",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "credential_id": {
+                "custom_name": "credentialId"
+              },
+              "credential_public_key": {
+                "custom_name": "credentialPublicKey"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "user_id": {
+                "custom_name": "userId"
+              }
+            },
+            "custom_column_names": {
+              "credential_id": "credentialId",
+              "credential_public_key": "credentialPublicKey",
+              "id": "id",
+              "user_id": "userId"
+            },
+            "custom_name": "authUserSecurityKeys",
+            "custom_root_fields": {
+              "delete": "deleteAuthUserSecurityKeys",
+              "delete_by_pk": "deleteAuthUserSecurityKey",
+              "insert": "insertAuthUserSecurityKeys",
+              "insert_one": "insertAuthUserSecurityKey",
+              "select": "authUserSecurityKeys",
+              "select_aggregate": "authUserSecurityKeysAggregate",
+              "select_by_pk": "authUserSecurityKey",
+              "update": "updateAuthUserSecurityKeys",
+              "update_by_pk": "updateAuthUserSecurityKey"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "user",
+              "using": {
+                "foreign_key_constraint_on": "user_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "users",
+            "schema": "auth"
+          },
+          "configuration": {
+            "column_config": {
+              "active_mfa_type": {
+                "custom_name": "activeMfaType"
+              },
+              "avatar_url": {
+                "custom_name": "avatarUrl"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "default_role": {
+                "custom_name": "defaultRole"
+              },
+              "disabled": {
+                "custom_name": "disabled"
+              },
+              "display_name": {
+                "custom_name": "displayName"
+              },
+              "email": {
+                "custom_name": "email"
+              },
+              "email_verified": {
+                "custom_name": "emailVerified"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "is_anonymous": {
+                "custom_name": "isAnonymous"
+              },
+              "last_seen": {
+                "custom_name": "lastSeen"
+              },
+              "locale": {
+                "custom_name": "locale"
+              },
+              "new_email": {
+                "custom_name": "newEmail"
+              },
+              "otp_hash": {
+                "custom_name": "otpHash"
+              },
+              "otp_hash_expires_at": {
+                "custom_name": "otpHashExpiresAt"
+              },
+              "otp_method_last_used": {
+                "custom_name": "otpMethodLastUsed"
+              },
+              "password_hash": {
+                "custom_name": "passwordHash"
+              },
+              "phone_number": {
+                "custom_name": "phoneNumber"
+              },
+              "phone_number_verified": {
+                "custom_name": "phoneNumberVerified"
+              },
+              "ticket": {
+                "custom_name": "ticket"
+              },
+              "ticket_expires_at": {
+                "custom_name": "ticketExpiresAt"
+              },
+              "totp_secret": {
+                "custom_name": "totpSecret"
+              },
+              "updated_at": {
+                "custom_name": "updatedAt"
+              },
+              "webauthn_current_challenge": {
+                "custom_name": "currentChallenge"
+              }
+            },
+            "custom_column_names": {
+              "active_mfa_type": "activeMfaType",
+              "avatar_url": "avatarUrl",
+              "created_at": "createdAt",
+              "default_role": "defaultRole",
+              "disabled": "disabled",
+              "display_name": "displayName",
+              "email": "email",
+              "email_verified": "emailVerified",
+              "id": "id",
+              "is_anonymous": "isAnonymous",
+              "last_seen": "lastSeen",
+              "locale": "locale",
+              "new_email": "newEmail",
+              "otp_hash": "otpHash",
+              "otp_hash_expires_at": "otpHashExpiresAt",
+              "otp_method_last_used": "otpMethodLastUsed",
+              "password_hash": "passwordHash",
+              "phone_number": "phoneNumber",
+              "phone_number_verified": "phoneNumberVerified",
+              "ticket": "ticket",
+              "ticket_expires_at": "ticketExpiresAt",
+              "totp_secret": "totpSecret",
+              "updated_at": "updatedAt",
+              "webauthn_current_challenge": "currentChallenge"
+            },
+            "custom_name": "users",
+            "custom_root_fields": {
+              "delete": "deleteUsers",
+              "delete_by_pk": "deleteUser",
+              "insert": "insertUsers",
+              "insert_one": "insertUser",
+              "select": "users",
+              "select_aggregate": "usersAggregate",
+              "select_by_pk": "user",
+              "update": "updateUsers",
+              "update_by_pk": "updateUser"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "defaultRoleByRole",
+              "using": {
+                "foreign_key_constraint_on": "default_role"
+              }
+            }
+          ],
+          "array_relationships": [
+            {
+              "name": "oauth2AuthRequests",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "user_id",
+                  "table": {
+                    "name": "oauth2_auth_requests",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "oauth2RefreshTokens",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "user_id",
+                  "table": {
+                    "name": "oauth2_refresh_tokens",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "refreshTokens",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "user_id",
+                  "table": {
+                    "name": "refresh_tokens",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "roles",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "user_id",
+                  "table": {
+                    "name": "user_roles",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "securityKeys",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "user_id",
+                  "table": {
+                    "name": "user_security_keys",
+                    "schema": "auth"
+                  }
+                }
+              }
+            },
+            {
+              "name": "userProviders",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "user_id",
+                  "table": {
+                    "name": "user_providers",
+                    "schema": "auth"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "leads",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            }
+          ],
+          "insert_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "check": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner",
+                          "editor"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                },
+                "columns": "*"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "event_triggers": [
+            {
+              "name": "lead_created",
+              "definition": {
+                "enable_manual": false,
+                "insert": {
+                  "columns": "*"
+                }
+              },
+              "retry_conf": {
+                "interval_sec": 10,
+                "num_retries": 3,
+                "timeout_sec": 60
+              },
+              "webhook": "{{NHOST_FUNCTIONS_URL}}/events/lead-created",
+              "headers": [
+                {
+                  "name": "nhost-webhook-secret",
+                  "value_from_env": "NHOST_WEBHOOK_SECRET"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "notifications",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            },
+            {
+              "name": "workflow_run",
+              "using": {
+                "foreign_key_constraint_on": "workflow_run_id"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "workflow_run": {
+                    "workflow": {
+                      "org": {
+                        "members": {
+                          "user_id": {
+                            "_eq": "X-Hasura-User-Id"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "event_triggers": [
+            {
+              "name": "notify_delivery",
+              "definition": {
+                "enable_manual": false,
+                "insert": {
+                  "columns": "*"
+                }
+              },
+              "retry_conf": {
+                "interval_sec": 10,
+                "num_retries": 3,
+                "timeout_sec": 60
+              },
+              "webhook": "{{NHOST_FUNCTIONS_URL}}/events/deliver-notification",
+              "headers": [
+                {
+                  "name": "nhost-webhook-secret",
+                  "value_from_env": "NHOST_WEBHOOK_SECRET"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "org_members",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            }
+          ],
+          "insert_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "check": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                },
+                "columns": "*"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "update_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                },
+                "check": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "delete_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "filter": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "org_roles",
+            "schema": "public"
+          },
+          "is_enum": true
+        },
+        {
+          "table": {
+            "name": "org_usage_current_month",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "org_id": "id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "organizations",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "org_usage_events",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "organizations",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "usage",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "id": "org_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "org_usage_current_month",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "array_relationships": [
+            {
+              "name": "leads",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "org_id",
+                  "table": {
+                    "name": "leads",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "members",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "org_id",
+                  "table": {
+                    "name": "org_members",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "runs",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "org_id",
+                  "table": {
+                    "name": "workflow_runs",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "usage_events",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "org_id",
+                  "table": {
+                    "name": "org_usage_events",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "workflows",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "org_id",
+                  "table": {
+                    "name": "workflows",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "members": {
+                    "user_id": {
+                      "_eq": "X-Hasura-User-Id"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "run_statuses",
+            "schema": "public"
+          },
+          "is_enum": true
+        },
+        {
+          "table": {
+            "name": "step_run_statuses",
+            "schema": "public"
+          },
+          "is_enum": true
+        },
+        {
+          "table": {
+            "name": "step_runs",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            },
+            {
+              "name": "step",
+              "using": {
+                "foreign_key_constraint_on": "step_id"
+              }
+            },
+            {
+              "name": "workflow_run",
+              "using": {
+                "foreign_key_constraint_on": "workflow_run_id"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "workflow_run": {
+                    "workflow": {
+                      "org": {
+                        "members": {
+                          "user_id": {
+                            "_eq": "X-Hasura-User-Id"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "step_types",
+            "schema": "public"
+          },
+          "is_enum": true
+        },
+        {
+          "table": {
+            "name": "trigger_types",
+            "schema": "public"
+          },
+          "is_enum": true
+        },
+        {
+          "table": {
+            "name": "workflow_artifacts",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            },
+            {
+              "name": "workflow_run",
+              "using": {
+                "foreign_key_constraint_on": "workflow_run_id"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "workflow_run": {
+                    "workflow": {
+                      "org": {
+                        "members": {
+                          "user_id": {
+                            "_eq": "X-Hasura-User-Id"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "workflow_runs",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            },
+            {
+              "name": "trigger",
+              "using": {
+                "foreign_key_constraint_on": "trigger_id"
+              }
+            },
+            {
+              "name": "workflow",
+              "using": {
+                "foreign_key_constraint_on": "workflow_id"
+              }
+            }
+          ],
+          "array_relationships": [
+            {
+              "name": "artifacts",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "workflow_run_id",
+                  "table": {
+                    "name": "workflow_artifacts",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "notifications",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "workflow_run_id",
+                  "table": {
+                    "name": "notifications",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "step_runs",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "workflow_run_id",
+                  "table": {
+                    "name": "step_runs",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "workflow": {
+                    "org": {
+                      "members": {
+                        "user_id": {
+                          "_eq": "X-Hasura-User-Id"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "workflow_steps",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            },
+            {
+              "name": "workflow",
+              "using": {
+                "foreign_key_constraint_on": "workflow_id"
+              }
+            }
+          ],
+          "insert_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "check": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "db_write",
+                              "notify"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "columns": "*"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "workflow": {
+                    "org": {
+                      "members": {
+                        "user_id": {
+                          "_eq": "X-Hasura-User-Id"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "update_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "db_write",
+                              "notify"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "check": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "db_write",
+                              "notify"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "delete_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "filter": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "db_write",
+                              "notify"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "workflow_triggers",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            },
+            {
+              "name": "workflow",
+              "using": {
+                "foreign_key_constraint_on": "workflow_id"
+              }
+            }
+          ],
+          "insert_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "check": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "webhook"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "columns": "*"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "workflow": {
+                    "org": {
+                      "members": {
+                        "user_id": {
+                          "_eq": "X-Hasura-User-Id"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "update_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "webhook"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "check": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "webhook"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "delete_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "filter": {
+                  "_and": [
+                    {
+                      "workflow": {
+                        "org": {
+                          "members": {
+                            "role": {
+                              "_in": [
+                                "owner",
+                                "editor"
+                              ]
+                            },
+                            "user_id": {
+                              "_eq": "X-Hasura-User-Id"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "_or": [
+                        {
+                          "type": {
+                            "_nin": [
+                              "webhook"
+                            ]
+                          }
+                        },
+                        {
+                          "workflow": {
+                            "org": {
+                              "members": {
+                                "role": {
+                                  "_eq": "owner"
+                                },
+                                "user_id": {
+                                  "_eq": "X-Hasura-User-Id"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "workflows",
+            "schema": "public"
+          },
+          "object_relationships": [
+            {
+              "name": "org",
+              "using": {
+                "foreign_key_constraint_on": "org_id"
+              }
+            }
+          ],
+          "array_relationships": [
+            {
+              "name": "runs",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "workflow_id",
+                  "table": {
+                    "name": "workflow_runs",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "steps",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "workflow_id",
+                  "table": {
+                    "name": "workflow_steps",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "triggers",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "workflow_id",
+                  "table": {
+                    "name": "workflow_triggers",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "insert_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "check": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner",
+                          "editor"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                },
+                "columns": "*"
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "update_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "columns": "*",
+                "filter": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner",
+                          "editor"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                },
+                "check": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner",
+                          "editor"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "delete_permissions": [
+            {
+              "role": "user",
+              "permission": {
+                "filter": {
+                  "org": {
+                    "members": {
+                      "role": {
+                        "_in": [
+                          "owner"
+                        ]
+                      },
+                      "user_id": {
+                        "_eq": "X-Hasura-User-Id"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "buckets",
+            "schema": "storage"
+          },
+          "configuration": {
+            "column_config": {
+              "cache_control": {
+                "custom_name": "cacheControl"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "download_expiration": {
+                "custom_name": "downloadExpiration"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "max_upload_file_size": {
+                "custom_name": "maxUploadFileSize"
+              },
+              "min_upload_file_size": {
+                "custom_name": "minUploadFileSize"
+              },
+              "presigned_urls_enabled": {
+                "custom_name": "presignedUrlsEnabled"
+              },
+              "updated_at": {
+                "custom_name": "updatedAt"
+              }
+            },
+            "custom_column_names": {
+              "cache_control": "cacheControl",
+              "created_at": "createdAt",
+              "download_expiration": "downloadExpiration",
+              "id": "id",
+              "max_upload_file_size": "maxUploadFileSize",
+              "min_upload_file_size": "minUploadFileSize",
+              "presigned_urls_enabled": "presignedUrlsEnabled",
+              "updated_at": "updatedAt"
+            },
+            "custom_name": "buckets",
+            "custom_root_fields": {
+              "delete": "deleteBuckets",
+              "delete_by_pk": "deleteBucket",
+              "insert": "insertBuckets",
+              "insert_one": "insertBucket",
+              "select": "buckets",
+              "select_aggregate": "bucketsAggregate",
+              "select_by_pk": "bucket",
+              "update": "updateBuckets",
+              "update_by_pk": "updateBucket"
+            }
+          },
+          "array_relationships": [
+            {
+              "name": "files",
+              "using": {
+                "foreign_key_constraint_on": {
+                  "column": "bucket_id",
+                  "table": {
+                    "name": "files",
+                    "schema": "storage"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "files",
+            "schema": "storage"
+          },
+          "configuration": {
+            "column_config": {
+              "bucket_id": {
+                "custom_name": "bucketId"
+              },
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "etag": {
+                "custom_name": "etag"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "is_uploaded": {
+                "custom_name": "isUploaded"
+              },
+              "metadata": {
+                "custom_name": "metadata"
+              },
+              "mime_type": {
+                "custom_name": "mimeType"
+              },
+              "name": {
+                "custom_name": "name"
+              },
+              "size": {
+                "custom_name": "size"
+              },
+              "updated_at": {
+                "custom_name": "updatedAt"
+              },
+              "uploaded_by_user_id": {
+                "custom_name": "uploadedByUserId"
+              }
+            },
+            "custom_column_names": {
+              "bucket_id": "bucketId",
+              "created_at": "createdAt",
+              "etag": "etag",
+              "id": "id",
+              "is_uploaded": "isUploaded",
+              "metadata": "metadata",
+              "mime_type": "mimeType",
+              "name": "name",
+              "size": "size",
+              "updated_at": "updatedAt",
+              "uploaded_by_user_id": "uploadedByUserId"
+            },
+            "custom_name": "files",
+            "custom_root_fields": {
+              "delete": "deleteFiles",
+              "delete_by_pk": "deleteFile",
+              "insert": "insertFiles",
+              "insert_one": "insertFile",
+              "select": "files",
+              "select_aggregate": "filesAggregate",
+              "select_by_pk": "file",
+              "update": "updateFiles",
+              "update_by_pk": "updateFile"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "bucket",
+              "using": {
+                "foreign_key_constraint_on": "bucket_id"
+              }
+            }
+          ]
+        },
+        {
+          "table": {
+            "name": "virus",
+            "schema": "storage"
+          },
+          "configuration": {
+            "column_config": {
+              "created_at": {
+                "custom_name": "createdAt"
+              },
+              "file_id": {
+                "custom_name": "fileId"
+              },
+              "filename": {
+                "custom_name": "filename"
+              },
+              "id": {
+                "custom_name": "id"
+              },
+              "updated_at": {
+                "custom_name": "updatedAt"
+              },
+              "user_session": {
+                "custom_name": "userSession"
+              },
+              "virus": {
+                "custom_name": "virus"
+              }
+            },
+            "custom_column_names": {
+              "created_at": "createdAt",
+              "file_id": "fileId",
+              "filename": "filename",
+              "id": "id",
+              "updated_at": "updatedAt",
+              "user_session": "userSession",
+              "virus": "virus"
+            },
+            "custom_name": "virus",
+            "custom_root_fields": {
+              "delete": "deleteViruses",
+              "delete_by_pk": "deleteVirus",
+              "insert": "insertViruses",
+              "insert_one": "insertVirus",
+              "select": "viruses",
+              "select_aggregate": "virusesAggregate",
+              "select_by_pk": "virus",
+              "update": "updateViruses",
+              "update_by_pk": "updateVirus"
+            }
+          },
+          "object_relationships": [
+            {
+              "name": "file",
+              "using": {
+                "foreign_key_constraint_on": "file_id"
+              }
+            }
+          ]
+        }
+      ],
+      "configuration": {
+        "connection_info": {
+          "database_url": {
+            "from_env": "HASURA_GRAPHQL_DATABASE_URL"
+          },
+          "isolation_level": "read-committed",
+          "pool_settings": {
+            "connection_lifetime": 600,
+            "idle_timeout": 180,
+            "max_connections": 50,
+            "retries": 1
+          },
+          "use_prepared_statements": true
+        }
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "approveStep",
+      "definition": {
+        "handler": "{{NHOST_FUNCTIONS_URL}}/actions/approve-step",
+        "output_type": "ApproveStepOutput",
+        "ignored_client_headers": [
+          "Content-Length",
+          "Content-MD5",
+          "User-Agent",
+          "Host",
+          "Origin",
+          "Referer",
+          "Accept",
+          "Accept-Encoding",
+          "Accept-Language",
+          "Accept-Datetime",
+          "Cache-Control",
+          "Connection",
+          "DNT",
+          "Content-Type"
+        ],
+        "headers": [
+          {
+            "name": "nhost-webhook-secret",
+            "value_from_env": "NHOST_WEBHOOK_SECRET"
+          }
+        ],
+        "arguments": [
+          {
+            "name": "step_run_id",
+            "type": "uuid!"
+          }
+        ],
+        "type": "mutation",
+        "kind": "synchronous"
+      },
+      "permissions": [
+        {
+          "role": "user"
+        }
+      ]
+    },
+    {
+      "name": "triggerWorkflowRun",
+      "definition": {
+        "handler": "{{NHOST_FUNCTIONS_URL}}/actions/trigger-workflow-run",
+        "output_type": "TriggerWorkflowRunOutput",
+        "ignored_client_headers": [
+          "Content-Length",
+          "Content-MD5",
+          "User-Agent",
+          "Host",
+          "Origin",
+          "Referer",
+          "Accept",
+          "Accept-Encoding",
+          "Accept-Language",
+          "Accept-Datetime",
+          "Cache-Control",
+          "Connection",
+          "DNT",
+          "Content-Type"
+        ],
+        "headers": [
+          {
+            "name": "nhost-webhook-secret",
+            "value_from_env": "NHOST_WEBHOOK_SECRET"
+          }
+        ],
+        "arguments": [
+          {
+            "name": "workflow_id",
+            "type": "uuid!"
+          }
+        ],
+        "type": "mutation",
+        "kind": "synchronous"
+      },
+      "permissions": [
+        {
+          "role": "user"
+        }
+      ]
+    },
+    {
+      "name": "webhookTriggerRun",
+      "definition": {
+        "handler": "{{NHOST_FUNCTIONS_URL}}/actions/webhook-trigger",
+        "output_type": "WebhookTriggerRunOutput",
+        "ignored_client_headers": [
+          "Content-Length",
+          "Content-MD5",
+          "User-Agent",
+          "Host",
+          "Origin",
+          "Referer",
+          "Accept",
+          "Accept-Encoding",
+          "Accept-Language",
+          "Accept-Datetime",
+          "Cache-Control",
+          "Connection",
+          "DNT",
+          "Content-Type"
+        ],
+        "headers": [
+          {
+            "name": "nhost-webhook-secret",
+            "value_from_env": "NHOST_WEBHOOK_SECRET"
+          }
+        ],
+        "arguments": [
+          {
+            "name": "token",
+            "type": "String!"
+          },
+          {
+            "name": "payload",
+            "type": "jsonb"
+          }
+        ],
+        "type": "mutation",
+        "kind": "synchronous"
+      },
+      "permissions": [
+        {
+          "role": "user"
+        },
+        {
+          "role": "public"
+        }
+      ]
+    }
+  ],
+  "custom_types": {
+    "objects": [
+      {
+        "name": "TriggerWorkflowRunOutput",
+        "fields": [
+          {
+            "name": "run_id",
+            "type": "uuid!"
+          },
+          {
+            "name": "status",
+            "type": "String!"
+          },
+          {
+            "name": "paused_at_step_run_id",
+            "type": "uuid"
+          }
+        ]
+      },
+      {
+        "name": "ApproveStepOutput",
+        "fields": [
+          {
+            "name": "run_id",
+            "type": "uuid!"
+          },
+          {
+            "name": "status",
+            "type": "String!"
+          },
+          {
+            "name": "approved_by",
+            "type": "uuid!"
+          }
+        ]
+      },
+      {
+        "name": "WebhookTriggerRunOutput",
+        "fields": [
+          {
+            "name": "run_id",
+            "type": "uuid!"
+          },
+          {
+            "name": "status",
+            "type": "String!"
+          },
+          {
+            "name": "paused_at_step_run_id",
+            "type": "uuid"
+          }
+        ]
+      }
+    ]
+  }
+}

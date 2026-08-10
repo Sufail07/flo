@@ -1,0 +1,4 @@
+table:
+  name: trigger_types
+  schema: public
+is_enum: true

@@ -1,0 +1,43 @@
+table:
+  name: leads
+  schema: public
+object_relationships:
+  - name: org
+    using:
+      foreign_key_constraint_on: org_id
+insert_permissions:
+  - role: user
+    permission:
+      check:
+        org:
+          members:
+            role:
+              _in:
+                - owner
+                - editor
+            user_id:
+              _eq: X-Hasura-User-Id
+      columns: '*'
+select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        org:
+          members:
+            user_id:
+              _eq: X-Hasura-User-Id
+event_triggers:
+  - name: lead_created
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 3
+      timeout_sec: 60
+    webhook: '{{NHOST_FUNCTIONS_URL}}/events/lead-created'
+    headers:
+      - name: nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

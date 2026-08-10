@@ -1,0 +1,57 @@
+table:
+  name: organizations
+  schema: public
+object_relationships:
+  - name: usage
+    using:
+      manual_configuration:
+        column_mapping:
+          id: org_id
+        insertion_order: null
+        remote_table:
+          name: org_usage_current_month
+          schema: public
+array_relationships:
+  - name: leads
+    using:
+      foreign_key_constraint_on:
+        column: org_id
+        table:
+          name: leads
+          schema: public
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: org_id
+        table:
+          name: org_members
+          schema: public
+  - name: runs
+    using:
+      foreign_key_constraint_on:
+        column: org_id
+        table:
+          name: workflow_runs
+          schema: public
+  - name: usage_events
+    using:
+      foreign_key_constraint_on:
+        column: org_id
+        table:
+          name: org_usage_events
+          schema: public
+  - name: workflows
+    using:
+      foreign_key_constraint_on:
+        column: org_id
+        table:
+          name: workflows
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns: '*'
+      filter:
+        members:
+          user_id:
+            _eq: X-Hasura-User-Id

@@ -1,0 +1,30 @@
+# nhost
+.nhost
+.secrets
+
+# frontend lives in its own repo (deployed to Vercel)
+frontend/
+
+# local AI planning artifacts
+.kilo/
+
+# dependencies
+node_modules/
+
+# python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# env files
+.env
+.env.*
+
+# logs
+*.log
+npm-debug.log*
+
+# os
+.DS_Store
+Thumbs.db
