@@ -29,7 +29,7 @@ export default async function handler(req: Request, res: Response) {
       `query ($cutoff: timestamptz!) {
          workflow_runs(
            where: {
-             status: { _in: ["pending", "running"] }
+             status: { _in: [pending, running] }
              created_at: { _lt: $cutoff }
            }
          ) { id org_id }
@@ -48,14 +48,14 @@ export default async function handler(req: Request, res: Response) {
       // and now is left alone, and its quota is not released twice.
       const updated = await adminGql<{ update_workflow_runs: { affected_rows: number } }>(
         `mutation ($runId: uuid!) {
-           update_workflow_runs(
-             where: { id: { _eq: $runId }, status: { _in: ["pending", "running"] } }
-             _set: {
-               status: "failed"
-               error: "run abandoned — executor did not finish"
-               finished_at: "now()"
-             }
-           ) { affected_rows }
+         update_workflow_runs(
+           where: { id: { _eq: $runId }, status: { _in: [pending, running] } }
+           _set: {
+             status: failed
+             error: "run abandoned — executor did not finish"
+             finished_at: "now()"
+           }
+         ) { affected_rows }
          }`,
         { runId: run.id },
       );
@@ -68,10 +68,10 @@ export default async function handler(req: Request, res: Response) {
            update_step_runs(
              where: {
                workflow_run_id: { _eq: $runId }
-               status: { _in: ["pending", "running"] }
+               status: { _in: [pending, running] }
              }
              _set: {
-               status: "failed"
+               status: failed
                error: "run abandoned — executor did not finish"
                finished_at: "now()"
              }

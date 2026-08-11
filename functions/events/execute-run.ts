@@ -48,8 +48,8 @@ export default async function handler(req: Request, res: Response) {
     const claim = await adminGql<{ update_workflow_runs: { affected_rows: number } }>(
       `mutation ($runId: uuid!) {
          update_workflow_runs(
-           where: { id: { _eq: $runId }, status: { _eq: "pending" } }
-           _set: { status: "running", started_at: "now()" }
+           where: { id: { _eq: $runId }, status: { _eq: pending } }
+           _set: { status: running, started_at: "now()" }
          ) { affected_rows }
        }`,
       { runId: run.id },
@@ -73,8 +73,8 @@ export default async function handler(req: Request, res: Response) {
         const failed = await adminGql<{ update_workflow_runs: { affected_rows: number } }>(
           `mutation ($runId: uuid!, $error: String!) {
              update_workflow_runs(
-               where: { id: { _eq: $runId }, status: { _in: ["pending", "running"] } }
-               _set: { status: "failed", error: $error, finished_at: "now()" }
+               where: { id: { _eq: $runId }, status: { _in: [pending, running] } }
+               _set: { status: failed, error: $error, finished_at: "now()" }
              ) { affected_rows }
            }`,
           { runId, error: message },
