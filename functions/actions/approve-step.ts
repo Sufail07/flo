@@ -7,7 +7,6 @@ import {
   requireWebhookSecret,
 } from '../_lib/auth';
 import { adminGql } from '../_lib/graphql';
-import { executeWorkflowRun } from '../_lib/runner';
 
 type Input = { step_run_id: string };
 
@@ -74,21 +73,20 @@ export default async function handler(req: Request, res: Response) {
       { id: sr.id, userId, status: 'succeeded' },
     );
 
+    // Back to 'pending' rather than 'running': that is the state the execute-run
+    // Event Trigger picks up, so the remainder of the run executes out-of-band
+    // and this request returns immediately. executeWorkflowRun skips step_runs
+    // that are already final, so it resumes after the approved gate.
     await adminGql(
       `mutation ($runId: uuid!, $status: run_statuses_enum!) {
          update_workflow_runs_by_pk(pk_columns: { id: $runId }, _set: { status: $status }) { id }
        }`,
-      { runId: sr.workflow_run_id, status: 'running' },
+      { runId: sr.workflow_run_id, status: 'pending' },
     );
-
-    // Resume the paused run from the step after the gate.
-    const result = await executeWorkflowRun(sr.workflow_run_id, {
-      resumeAfterPosition: sr.position,
-    });
 
     return res.json({
       run_id: sr.workflow_run_id,
-      status: result.status,
+      status: 'pending',
       approved_by: userId,
     });
   } catch (err) {

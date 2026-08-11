@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { requireWebhookSecret } from '../_lib/auth';
 import { adminGql } from '../_lib/graphql';
-import { executeWorkflowRun, reserveQuota } from '../_lib/runner';
+import { reserveQuota } from '../_lib/runner';
 
 type EventPayload = {
   event: {
@@ -23,8 +23,9 @@ type TriggerRow = {
 /**
  * Event-trigger handler for the database_event trigger type. Fires when a
  * leads row is inserted: finds an enabled database_event trigger in that org
- * and starts a run. Idempotent under retry because starting an already-finished
- * run is a no-op in the runner.
+ * and starts a run. Execution is handed to the execute-run Event Trigger (the
+ * run is inserted as 'pending' and this handler returns immediately), matching
+ * the manual and webhook trigger paths.
  */
 export default async function handler(req: Request, res: Response) {
   try {
@@ -68,18 +69,17 @@ export default async function handler(req: Request, res: Response) {
           org_id: tr.org_id,
           trigger_id: tr.id,
           trigger_type: 'database_event',
-          status: 'running',
+          status: 'pending',
           input: { lead_id: lead.id, email: lead.email ?? null },
         },
       },
     );
     const runId = created.insert_workflow_runs_one.id;
 
-    const result = await executeWorkflowRun(runId);
     return res.json({
       run_id: runId,
-      status: result.status,
-      paused_at_step_run_id: result.pausedAtStepRunId ?? null,
+      status: 'pending',
+      paused_at_step_run_id: null,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

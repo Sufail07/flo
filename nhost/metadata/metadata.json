@@ -1577,6 +1577,34 @@
                 }
               }
             }
+          ],
+          "event_triggers": [
+            {
+              "name": "execute_run",
+              "definition": {
+                "enable_manual": true,
+                "insert": {
+                  "columns": "*"
+                },
+                "update": {
+                  "columns": [
+                    "status"
+                  ]
+                }
+              },
+              "retry_conf": {
+                "interval_sec": 10,
+                "num_retries": 3,
+                "timeout_sec": 120
+              },
+              "webhook": "{{NHOST_FUNCTIONS_URL}}/events/execute-run",
+              "headers": [
+                {
+                  "name": "nhost-webhook-secret",
+                  "value_from_env": "NHOST_WEBHOOK_SECRET"
+                }
+              ]
+            }
           ]
         },
         {
@@ -2524,6 +2552,10 @@
           {
             "name": "workflow_id",
             "type": "uuid!"
+          },
+          {
+            "name": "payload",
+            "type": "jsonb"
           }
         ],
         "type": "mutation",
@@ -2639,5 +2671,27 @@
         ]
       }
     ]
-  }
+  },
+  "cron_triggers": [
+    {
+      "name": "reap_stranded_runs",
+      "webhook": "{{NHOST_FUNCTIONS_URL}}/events/reap-stranded-runs",
+      "schedule": "*/5 * * * *",
+      "include_in_metadata": true,
+      "payload": {},
+      "retry_conf": {
+        "num_retries": 2,
+        "retry_interval_seconds": 30,
+        "timeout_seconds": 60,
+        "tolerance_seconds": 21600
+      },
+      "headers": [
+        {
+          "name": "nhost-webhook-secret",
+          "value_from_env": "NHOST_WEBHOOK_SECRET"
+        }
+      ],
+      "comment": "Fails workflow_runs whose executor died and returns their quota units."
+    }
+  ]
 }

@@ -1,1 +1,14 @@
-[]
+- name: reap_stranded_runs
+  webhook: '{{NHOST_FUNCTIONS_URL}}/events/reap-stranded-runs'
+  schedule: '*/5 * * * *'
+  include_in_metadata: true
+  payload: {}
+  retry_conf:
+    num_retries: 2
+    retry_interval_seconds: 30
+    timeout_seconds: 60
+    tolerance_seconds: 21600
+  headers:
+    - name: nhost-webhook-secret
+      value_from_env: NHOST_WEBHOOK_SECRET
+  comment: Fails workflow_runs whose executor died and returns their quota units.

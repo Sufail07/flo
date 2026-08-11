@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 import { errorResponse, requireWebhookSecret } from '../_lib/auth';
 import { adminGql } from '../_lib/graphql';
-import { executeWorkflowRun, reserveQuota } from '../_lib/runner';
+import { reserveQuota } from '../_lib/runner';
 
 type Input = { token: string; payload?: Record<string, unknown> };
 
@@ -59,18 +59,19 @@ export default async function handler(req: Request, res: Response) {
           org_id: tr.org_id,
           trigger_id: tr.id,
           trigger_type: 'webhook',
-          status: 'running',
+          status: 'pending',
           input: payload ?? {},
         },
       },
     );
     const runId = created.insert_workflow_runs_one.id;
 
-    const result = await executeWorkflowRun(runId);
+    // Execution is handed to the execute-run Event Trigger so the caller is not
+    // held open for the whole run.
     return res.json({
       run_id: runId,
-      status: result.status,
-      paused_at_step_run_id: result.pausedAtStepRunId ?? null,
+      status: 'pending',
+      paused_at_step_run_id: null,
     });
   } catch (err) {
     const r = errorResponse(err);

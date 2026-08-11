@@ -7,9 +7,9 @@ import {
   requireWebhookSecret,
 } from '../_lib/auth';
 import { adminGql } from '../_lib/graphql';
-import { executeWorkflowRun, reserveQuota } from '../_lib/runner';
+import { reserveQuota } from '../_lib/runner';
 
-type Input = { workflow_id: string };
+type Input = { workflow_id: string; payload?: Record<string, unknown> };
 
 /**
  * Hasura Action: triggerWorkflowRun(workflow_id) — manual trigger.
@@ -59,18 +59,21 @@ export default async function handler(req: Request, res: Response) {
           org_id: orgId,
           trigger_type: 'manual',
           triggered_by: userId,
-          status: 'running',
+          status: 'pending',
           input: body.input.payload ?? {},
         },
       },
     );
     const runId = created.insert_workflow_runs_one.id;
 
-    const result = await executeWorkflowRun(runId);
+    // Return as soon as the run row exists. The execute-run Event Trigger drives
+    // the steps, so the client gets run_id immediately and can open its
+    // step_runs subscription before execution starts — that is what makes
+    // progress stream live instead of arriving all at once at the end.
     return res.json({
       run_id: runId,
-      status: result.status,
-      paused_at_step_run_id: result.pausedAtStepRunId ?? null,
+      status: 'pending',
+      paused_at_step_run_id: null,
     });
   } catch (err) {
     const r = errorResponse(err);

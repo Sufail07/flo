@@ -43,3 +43,20 @@ select_permissions:
             members:
               user_id:
                 _eq: X-Hasura-User-Id
+event_triggers:
+  - name: execute_run
+    definition:
+      enable_manual: true
+      insert:
+        columns: '*'
+      update:
+        columns:
+          - status
+    retry_conf:
+      interval_sec: 10
+      num_retries: 3
+      timeout_sec: 120
+    webhook: '{{NHOST_FUNCTIONS_URL}}/events/execute-run'
+    headers:
+      - name: nhost-webhook-secret
+        value_from_env: NHOST_WEBHOOK_SECRET

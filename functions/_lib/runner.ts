@@ -6,7 +6,8 @@ export type RunStatus =
   | 'running'
   | 'paused'
   | 'succeeded'
-  | 'failed';
+  | 'failed'
+  | 'cancelled';
 
 export type RunResult = {
   status: RunStatus;
@@ -51,10 +52,22 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 // ------------------------------------------------------------- quota
 
+/** First instant of the current UTC month, matching date_trunc('month', now()). */
+function currentPeriodStart(): string {
+  const now = new Date();
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
+}
+
 /**
- * Atomically reserves one quota unit. Reads the org to learn the limit, then
- * performs a single conditional UPDATE — the WHERE is evaluated against the
- * current row inside one statement, so concurrent triggers cannot over-commit.
+ * Atomically reserves one quota unit.
+ *
+ * Both root fields below run serially inside a single Hasura transaction, so the
+ * period rollover is guaranteed to be visible to the reserve that follows it.
+ * The rollover is what makes quotas actually reset: without it quota_used climbs
+ * forever and an org is permanently exhausted after its first N runs.
+ *
+ * The reserve itself is one conditional UPDATE, so concurrent triggers cannot
+ * read-then-write their way past the limit.
  */
 export async function reserveQuota(orgId: string): Promise<boolean> {
   const org = await adminGql<{ organizations_by_pk: { quota_limit: number } | null }>(
@@ -65,17 +78,20 @@ export async function reserveQuota(orgId: string): Promise<boolean> {
   );
   if (!org.organizations_by_pk) return false;
 
-  const { quota_limit } = org.organizations_by_pk;
-  const res = await adminGql<{ update_organizations: { affected_rows: number } }>(
-    `mutation ($orgId: uuid!, $limit: Int!) {
-       update_organizations(
+  const res = await adminGql<{ reserve: { affected_rows: number } }>(
+    `mutation ($orgId: uuid!, $limit: Int!, $periodStart: timestamptz!) {
+       rollover: update_organizations(
+         where: { id: { _eq: $orgId }, quota_period_start: { _lt: $periodStart } }
+         _set: { quota_used: 0, quota_period_start: $periodStart }
+       ) { affected_rows }
+       reserve: update_organizations(
          where: { id: { _eq: $orgId }, quota_used: { _lt: $limit } }
          _inc: { quota_used: 1 }
        ) { affected_rows }
      }`,
-    { orgId, limit: quota_limit },
+    { orgId, limit: org.organizations_by_pk.quota_limit, periodStart: currentPeriodStart() },
   );
-  return res.update_organizations.affected_rows === 1;
+  return res.reserve.affected_rows === 1;
 }
 
 /** Releases a reserved unit (failure path). Clamped so it can never go negative. */
@@ -147,13 +163,11 @@ function updateStepRun(id: string, patch: Record<string, unknown>): Promise<unkn
  * conditional branches), pauses at approval gates, and updates run state so a
  * subscription reflects progress live.
  *
- * Safe to call with a fresh runId (manual/webhook/event starts) OR to resume a
- * paused run by passing resumeAfterPosition (the approved gate's position).
+ * Idempotent and re-entrant. Safe to call for a fresh run or to resume one whose
+ * approval gate was just approved — steps with an already-final step_run are
+ * skipped, so a re-entry picks up exactly where the previous pass stopped.
  */
-export async function executeWorkflowRun(
-  runId: string,
-  opts: { resumeAfterPosition?: number } = {},
-): Promise<RunResult> {
+export async function executeWorkflowRun(runId: string): Promise<RunResult> {
   const run = await adminGql<{ workflow_runs_by_pk: RunRow | null }>(
     `query ($runId: uuid!) {
        workflow_runs_by_pk(id: $runId) { id workflow_id org_id status input }
@@ -202,14 +216,9 @@ export async function executeWorkflowRun(
     ctx.previous = ctx.steps[s.name];
   }
 
-  // Start index: fresh run begins at 0; a resume continues after the gate.
-  let index = 0;
-  if (opts.resumeAfterPosition !== undefined) {
-    index = steps.workflow_steps.findIndex((s) => s.position > opts.resumeAfterPosition!);
-  }
-  if (index < 0) index = steps.workflow_steps.length;
-
-  for (; index < steps.workflow_steps.length; index++) {
+  // Always walks from the start; the per-step skip below is what makes a resume
+  // work, since an approved gate is already 'succeeded' by the time we re-enter.
+  for (let index = 0; index < steps.workflow_steps.length; index++) {
     const stepDef = steps.workflow_steps[index];
     const existingRow = existingByPosition.get(stepDef.position);
     // Idempotency: an already-final step (e.g. from a retried event) is skipped.
